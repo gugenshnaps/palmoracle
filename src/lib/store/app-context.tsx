@@ -28,7 +28,7 @@ interface AppContextValue {
 const AppContext = createContext<AppContextValue | null>(null);
 
 export function AppProvider({ children }: { children: ReactNode }) {
-  const { userId } = useTelegram();
+  const { userId, initData } = useTelegram();
   const [screen, setScreen] = useState<AppScreen>("welcome");
   const [palmImage, setPalmImageState] = useState<string | null>(null);
   const [reading, setReading] = useState<PalmReadingResult | null>(null);
@@ -77,7 +77,7 @@ export function AppProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsProcessing(false);
     }
-  }, [palmImage, userId]);
+  }, [palmImage, userId, initData]);
 
   const completePayment = useCallback(async () => {
     setIsProcessing(true);

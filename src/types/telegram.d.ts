@@ -8,6 +8,8 @@ interface TelegramWebApp {
   expand: () => void;
   setHeaderColor: (color: string) => void;
   setBackgroundColor: (color: string) => void;
+  /** Подписанная строка для проверки на сервере */
+  initData?: string;
   initDataUnsafe: { user?: TelegramWebAppUser };
   openTelegramLink?: (url: string) => void;
 }

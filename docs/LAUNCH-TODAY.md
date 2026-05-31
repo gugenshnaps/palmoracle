@@ -17,6 +17,14 @@ OPENROUTER_INFOGRAPHIC_MODEL_FALLBACK=google/gemini-2.5-flash-image
 OPENROUTER_SITE_URL=https://ВАШ-ДОМЕН.vercel.app
 NEXT_PUBLIC_BOT_USERNAME=ваш_бот_без_@
 NEXT_PUBLIC_ENABLE_PAYWALL=false
+TELEGRAM_BOT_TOKEN=123456:ABC...   # BotFather → /token (секрет, не NEXT_PUBLIC_)
+```
+
+Опционально — ответ бота на `/start` (webhook):
+
+```text
+BotFather → /setwebhook
+https://palmoracle.vercel.app/api/telegram/webhook
 ```
 
 4. Проверка локально:

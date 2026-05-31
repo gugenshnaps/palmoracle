@@ -10,6 +10,7 @@ import {
 interface TelegramContextValue {
   webApp: TelegramWebApp;
   isReady: boolean;
+  initData?: string;
   userId?: number;
   userName?: string;
 }
@@ -23,6 +24,7 @@ function getWebApp(): TelegramWebApp {
     expand: () => {},
     setHeaderColor: () => {},
     setBackgroundColor: () => {},
+    initData: "",
     initDataUnsafe: {},
     openTelegramLink: () => {},
   };
@@ -54,6 +56,7 @@ export function TelegramProvider({ children }: { children: ReactNode }) {
       value={{
         webApp,
         isReady,
+        initData: webApp.initData,
         userId: user?.id,
         userName: user?.first_name,
       }}
