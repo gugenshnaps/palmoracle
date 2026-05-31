@@ -7,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { useApp } from "@/lib/store/app-context";
 
 const PHASES = [
-  { label: "Сканирование ладони", until: 30 },
-  { label: "Анализ линий", until: 65 },
-  { label: "Создание инфографики", until: 95 },
+  { label: "Сканирование ладони", until: 35 },
+  { label: "Чтение линий", until: 70 },
+  { label: "Создание гида", until: 95 },
 ];
 
 export function AnalysisScreen() {
@@ -19,15 +19,18 @@ export function AnalysisScreen() {
     reading,
     isProcessing,
     analysisError,
-    goTo,
     resetForNewAnalysis,
   } = useApp();
   const [progress, setProgress] = useState(0);
   const [phaseLabel, setPhaseLabel] = useState(PHASES[0].label);
+  const [started, setStarted] = useState(false);
 
   useEffect(() => {
-    startAnalysis();
-  }, [startAnalysis]);
+    if (!started) {
+      setStarted(true);
+      startAnalysis();
+    }
+  }, [started, startAnalysis]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -38,17 +41,13 @@ export function AnalysisScreen() {
         if (phase) setPhaseLabel(phase.label);
         return next;
       });
-    }, 120);
+    }, 100);
     return () => clearInterval(interval);
   }, [reading]);
 
   useEffect(() => {
-    if (reading && !isProcessing) {
-      setProgress(100);
-      const t = setTimeout(() => goTo("free-result"), 500);
-      return () => clearTimeout(t);
-    }
-  }, [reading, isProcessing, goTo]);
+    if (reading && !isProcessing) setProgress(100);
+  }, [reading, isProcessing]);
 
   if (!palmImage) return null;
 
@@ -67,40 +66,16 @@ export function AnalysisScreen() {
 
   return (
     <div className="flex flex-1 flex-col items-center">
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        className="mb-2 text-center text-xs tracking-[0.2em] text-[#c9a962] uppercase"
-      >
+      <motion.p className="mb-2 text-center text-xs tracking-[0.2em] text-[#c9a962] uppercase">
         {phaseLabel}
       </motion.p>
-
       <PalmScanner imageSrc={palmImage} progress={progress} />
-
-      <motion.p
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="mt-8 max-w-xs text-center text-[15px] leading-relaxed text-[#9a9288]"
-      >
-        Искусственный интеллект анализирует линии вашей ладони
+      <motion.p className="mt-8 max-w-xs text-center text-[15px] leading-relaxed text-[#9a9288]">
+        AI интерпретирует линии вашей ладони
       </motion.p>
       <p className="mt-2 text-center text-xs text-[#6a645c]">
-        Обычно 30–90 секунд — не закрывайте приложение
+        Обычно 10–30 секунд
       </p>
-
-      <motion.div
-        className="mt-6 flex gap-1"
-        animate={{ opacity: [0.4, 1, 0.4] }}
-        transition={{ duration: 1.5, repeat: Infinity }}
-      >
-        {[0, 1, 2].map((i) => (
-          <span
-            key={i}
-            className="h-1.5 w-1.5 rounded-full bg-[#c9a962]"
-          />
-        ))}
-      </motion.div>
     </div>
   );
 }

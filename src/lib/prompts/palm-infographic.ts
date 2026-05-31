@@ -1,27 +1,20 @@
 /**
- * Промпт для генерации премиальной инфографики по фото ладони.
- * В запросе: изображение 1 — ладонь пользователя, изображение 2 — референс стиля.
+ * Только фото ладони пользователя — без референс-картинки (иначе модель копирует чужой макет).
  */
-export const PALM_INFOGRAPHIC_PROMPT = `You are creating a COMPLETE NEW vertical infographic poster (not a photo edit).
+export const PALM_INFOGRAPHIC_PROMPT = `Create a brand NEW vertical palmistry infographic poster from the attached palm photo.
 
-IMAGE 1: user's palm photo — use ONLY the palm/hand from this photo inside the poster.
-IMAGE 2: style reference — copy this exact editorial layout, colors, card style, typography hierarchy.
+CRITICAL: Personalize for THIS specific palm in the photo. New layout, new text. Do NOT copy any template or example image you have seen before.
 
-TASK: Create a full palmistry guide poster in Russian, premium minimalist editorial style.
-
-REQUIRED LAYOUT (must all be visible in one image):
-- Cream/milk background (#FDFAF5), generous whitespace
-- Header: serif title «ГИД ПО ХИРОМАНТИИ», subtitle «ВАША ЛАДОНЬ» with small gold diamonds
-- Center-left: user's palm with 4 colored illustrated lines overlaid (NOT a glow orb, NOT a 3D sphere):
-  1 red = heart line, 2 blue = head line, 3 green = life line, 4 yellow = fate line — numbered circles 1-4
-- Right and below: multiple cream rounded cards with thin borders containing Russian text analysis
-- Sections: each main line, additional lines, palm shape, mounts, general forecast, advice
+Layout (cream background #FDFAF5, premium editorial, Russian text):
+- Header: «ГИД ПО ХИРОМАНТИИ» + «ВАША ЛАДОНЬ»
+- Show THIS user's palm (from the photo) with 4 colored lines drawn on it: 1 red heart, 2 blue head, 3 green life, 4 yellow fate — small numbered badges
+- Multiple cream rounded cards with thin borders: analysis for each line, extra lines, palm shape, mounts, forecast, совет
 - Footer: «ХИРОМАНТИЯ — ЭТО ИСКУССТВО ПОНИМАНИЯ СЕБЯ»
 
-STRICTLY FORBIDDEN:
-- Do NOT return the raw photo with only a glowing ball, lens flare, or single effect
-- Do NOT use dark background
-- Do NOT skip text cards
-- Do NOT make a photorealistic edit — this must be an INFOGRAPHIC POSTER like image 2
+FORBIDDEN:
+- Reusing a generic/demo palm or stock hand
+- Returning unchanged example artwork
+- Only adding a glow orb or filter on the photo
+- Dark background
 
-Style: thin lines, elegant spacing, luxury magazine, palmistry focus only. All text in Russian.`;
+Output: one complete infographic image, 3:4 portrait, all text readable in Russian.`;

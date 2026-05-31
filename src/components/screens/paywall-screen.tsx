@@ -1,22 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, Lock, Zap, Star, Gem, Eye } from "lucide-react";
+import { Lock, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FULL_READING_PRODUCT } from "@/lib/api/payments";
 import { useApp } from "@/lib/store/app-context";
-
-const BENEFITS = [
-  { icon: Sparkles, text: "Подробный анализ личности" },
-  { icon: Eye, text: "Скрытые таланты" },
-  { icon: Gem, text: "Денежный потенциал" },
-  { icon: Star, text: "Архетип личности" },
-  { icon: Zap, text: "Энергия будущего" },
-  { icon: Lock, text: "Редкие знаки на ладони" },
-];
+import { MOCK_ANALYSIS } from "@/lib/mock/palm-analysis";
 
 export function PaywallScreen() {
-  const { completePayment, isProcessing, goTo } = useApp();
+  const { completePayment, isProcessing, goTo, reading } = useApp();
+  const detected =
+    reading?.analysis.additionalLines.detected ??
+    MOCK_ANALYSIS.additionalLines.detected;
 
   return (
     <div className="flex flex-1 flex-col">
@@ -37,29 +32,36 @@ export function PaywallScreen() {
           Premium
         </span>
         <h2 className="font-display mt-4 text-3xl text-[#f5f0e8]">
-          Полный разбор
+          Дополнительные линии
         </h2>
         <p className="mt-3 text-[15px] text-[#9a9288]">
-          8 персональных карт с глубоким AI-анализом вашей ладони
+          AI обнаружил на вашей ладони скрытые линии — откройте полную
+          расшифровку
         </p>
       </motion.div>
 
-      <ul className="mt-8 flex flex-1 flex-col gap-4">
-        {BENEFITS.map(({ icon: Icon, text }, i) => (
+      <ul className="mt-8 flex flex-1 flex-col gap-3">
+        {detected.map((name, i) => (
           <motion.li
-            key={text}
+            key={name}
             initial={{ opacity: 0, x: -8 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: i * 0.06 }}
-            className="flex items-center gap-4 rounded-2xl border border-[#c9a962]/10 bg-[#12100e]/80 px-4 py-3"
+            transition={{ delay: i * 0.05 }}
+            className="flex items-center gap-4 rounded-2xl border border-[#c9a962]/15 bg-[#12100e]/80 px-4 py-3"
           >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#c9a962]/10 text-[#c9a962]">
-              <Icon size={18} />
-            </span>
-            <span className="text-[15px] text-[#e8d5a3]">{text}</span>
+            <Lock className="shrink-0 text-[#c9a962]" size={18} />
+            <span className="text-[15px] text-[#e8d5a3]">{name}</span>
           </motion.li>
         ))}
       </ul>
+
+      <div className="mt-6 rounded-2xl border border-[#c9a962]/20 bg-[#c9a962]/5 p-4">
+        <p className="flex items-start gap-2 text-sm text-[#e8d5a3]">
+          <Sparkles className="mt-0.5 shrink-0 text-[#c9a962]" size={16} />
+          {reading?.analysis.additionalLines.teaser ??
+            MOCK_ANALYSIS.additionalLines.teaser}
+        </p>
+      </div>
 
       <div className="mt-6">
         <Button
@@ -68,11 +70,11 @@ export function PaywallScreen() {
           onClick={() => completePayment()}
         >
           {isProcessing
-            ? "Обработка…"
-            : `Оплатить ${FULL_READING_PRODUCT.priceLabel}`}
+            ? "Открываем…"
+            : `Разблокировать · ${FULL_READING_PRODUCT.priceLabel}`}
         </Button>
         <p className="mt-3 text-center text-[11px] text-[#6a645c]">
-          Демо-режим: оплата имитируется без списания средств
+          Демо: оплата имитируется
         </p>
       </div>
     </div>

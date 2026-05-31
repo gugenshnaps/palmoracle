@@ -9,9 +9,9 @@ export interface PaymentProduct {
 }
 
 export const FULL_READING_PRODUCT: PaymentProduct = {
-  id: "full-reading",
-  title: "Полный разбор ладони",
-  description: "8 персональных карт с глубоким анализом",
+  id: "additional-lines",
+  title: "Дополнительные линии ладони",
+  description: "Полная расшифровка скрытых линий",
   priceLabel: "299 ₽",
   amountMinor: 29900,
   currency: "RUB",

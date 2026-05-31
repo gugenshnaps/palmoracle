@@ -1,25 +1,15 @@
+import type { PalmAnalysisResult, PalmValidationResult } from "./palm-analysis";
+
 export type AppScreen =
   | "welcome"
   | "upload"
+  | "quality-check"
   | "analysis"
   | "free-result"
   | "paywall"
   | "full-reading";
 
-/** Бесплатный результат — одна инфографика (как в референсе) */
-export interface PalmInfographicResult {
-  /** data:image/... или CDN URL */
-  imageUrl: string;
-  rareSignTeaser: string;
-}
-
-export interface FreeReadingSection {
-  id: "character" | "relationships" | "money" | "life-path";
-  title: string;
-  summary: string;
-  icon: string;
-}
-
+/** @deprecated — платный разбор, позже */
 export interface FullReadingCard {
   id: string;
   title: string;
@@ -28,14 +18,13 @@ export interface FullReadingCard {
 }
 
 export interface PalmReadingResult {
-  /** Главный артефакт бесплатного анализа */
-  infographic: PalmInfographicResult;
-  /** Устаревшие текстовые карточки — можно убрать после согласования paywall */
-  free?: FreeReadingSection[];
-  full?: FullReadingCard[];
+  validation?: PalmValidationResult;
+  analysis: PalmAnalysisResult;
+  /** Платный: полный разбор доп. линий */
+  paidAdditionalLines?: LineReadingPaid[];
 }
 
-export interface AnalysisProgress {
-  phase: "scan" | "lines" | "interpret";
-  progress: number;
+export interface LineReadingPaid {
+  name: string;
+  summary: string;
 }

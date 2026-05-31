@@ -3,6 +3,7 @@
 import { AppShell } from "@/components/layout/app-shell";
 import { WelcomeScreen } from "@/components/screens/welcome-screen";
 import { UploadScreen } from "@/components/screens/upload-screen";
+import { QualityCheckScreen } from "@/components/screens/quality-check-screen";
 import { AnalysisScreen } from "@/components/screens/analysis-screen";
 import { FreeResultScreen } from "@/components/screens/free-result-screen";
 import { PaywallScreen } from "@/components/screens/paywall-screen";
@@ -16,6 +17,7 @@ function ScreenRouter() {
   const screens: Record<AppScreen, React.ReactNode> = {
     welcome: <WelcomeScreen />,
     upload: <UploadScreen />,
+    "quality-check": <QualityCheckScreen />,
     analysis: <AnalysisScreen />,
     "free-result": <FreeResultScreen />,
     paywall: <PaywallScreen />,
