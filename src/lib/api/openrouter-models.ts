@@ -6,13 +6,14 @@
  */
 
 /** Бесплатный разбор: фото ладони → инфографика (image in → image out) */
+/** Gemini лучше собирает постер с текстом и карточками; GPT Image — запасной */
 export const INFOGRAPHIC_MODEL_PRIMARY =
-  process.env.OPENROUTER_INFOGRAPHIC_MODEL ?? "openai/gpt-5-image";
+  process.env.OPENROUTER_INFOGRAPHIC_MODEL ??
+  "google/gemini-2.5-flash-image";
 
-/** Запасная модель, если GPT Image недоступна или хуже держит русский текст на карточках */
 export const INFOGRAPHIC_MODEL_FALLBACK =
   process.env.OPENROUTER_INFOGRAPHIC_MODEL_FALLBACK ??
-  "google/gemini-2.5-flash-image";
+  "openai/gpt-5-image";
 
 /** Премиум (позже): текстовый глубокий разбор — не инфографика */
 export const PAID_TEXT_MODEL =

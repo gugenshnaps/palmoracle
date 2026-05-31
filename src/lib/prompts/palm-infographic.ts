@@ -1,15 +1,27 @@
 /**
  * Промпт для генерации премиальной инфографики по фото ладони.
- * Используется с image-моделями OpenRouter (фото ладони → картинка-гид).
+ * В запросе: изображение 1 — ладонь пользователя, изображение 2 — референс стиля.
  */
-export const PALM_INFOGRAPHIC_PROMPT = `Используй это изображение, чтобы создать полную инфографику-гид по линиям руки. Обрати внимание на линии ладони, выдели и проиллюстрируй ключевые линии и подробно проанализируй ладонь.
+export const PALM_INFOGRAPHIC_PROMPT = `You are creating a COMPLETE NEW vertical infographic poster (not a photo edit).
 
-Представь толкование на карточках молочного цвета со скругленными углами. Придерживайся аккуратного, минималистичного редакционного стиля премиум-класса. Используй тонкие линии, элегантный стиль интервалов и другие элементы дорогой премиальной эстетики. Сохраняй фокус именно на хиромантии.
+IMAGE 1: user's palm photo — use ONLY the palm/hand from this photo inside the poster.
+IMAGE 2: style reference — copy this exact editorial layout, colors, card style, typography hierarchy.
 
-Структура инфографики:
-- Заголовок «ГИД ПО ХИРОМАНТИИ» и подзаголовок «ВАША ЛАДОНЬ»
-- Фото ладони пользователя с цветными линиями: линия сердца (красная), линия ума (синяя), линия жизни (зелёная), линия судьбы (жёлтая), с номерами 1–4
-- Карточки с анализом каждой линии, дополнительных линий, формы ладони, холмов, общего прогноза
-- Футер: «ХИРОМАНТИЯ — ЭТО ИСКУССТВО ПОНИМАНИЯ СЕБЯ»
-- Текст на русском языке
-- Светлый молочный фон, тонкие рамки, serif-заголовки, sans-serif для текста`;
+TASK: Create a full palmistry guide poster in Russian, premium minimalist editorial style.
+
+REQUIRED LAYOUT (must all be visible in one image):
+- Cream/milk background (#FDFAF5), generous whitespace
+- Header: serif title «ГИД ПО ХИРОМАНТИИ», subtitle «ВАША ЛАДОНЬ» with small gold diamonds
+- Center-left: user's palm with 4 colored illustrated lines overlaid (NOT a glow orb, NOT a 3D sphere):
+  1 red = heart line, 2 blue = head line, 3 green = life line, 4 yellow = fate line — numbered circles 1-4
+- Right and below: multiple cream rounded cards with thin borders containing Russian text analysis
+- Sections: each main line, additional lines, palm shape, mounts, general forecast, advice
+- Footer: «ХИРОМАНТИЯ — ЭТО ИСКУССТВО ПОНИМАНИЯ СЕБЯ»
+
+STRICTLY FORBIDDEN:
+- Do NOT return the raw photo with only a glowing ball, lens flare, or single effect
+- Do NOT use dark background
+- Do NOT skip text cards
+- Do NOT make a photorealistic edit — this must be an INFOGRAPHIC POSTER like image 2
+
+Style: thin lines, elegant spacing, luxury magazine, palmistry focus only. All text in Russian.`;
