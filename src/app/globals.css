@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+:root {
+  --bg-deep: #070605;
+  --bg-elevated: #12100e;
+  --gold: #c9a962;
+  --gold-bright: #e8d5a3;
+  --gold-muted: #8a7a4a;
+  --text-primary: #f5f0e8;
+  --text-muted: #9a9288;
+  --background: var(--bg-deep);
+  --foreground: var(--text-primary);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-cormorant);
+}
+
+html {
+  height: 100%;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+}
+
+body {
+  min-height: 100%;
+  min-height: 100dvh;
+  background: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-display {
+  font-family: var(--font-cormorant), Georgia, serif;
+}
+
+/* Telegram safe area */
+.safe-bottom {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
