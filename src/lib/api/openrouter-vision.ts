@@ -37,6 +37,7 @@ async function visionChat(
   userText: string,
   imageBase64: string,
   mimeType?: string,
+  temperature = 0.4,
 ): Promise<string | null> {
   const apiKey = process.env.OPENROUTER_API_KEY;
   if (!apiKey) return null;
@@ -106,6 +107,7 @@ export async function validatePalmPhoto(
     VALIDATE_PALM_USER,
     imageBase64,
     mimeType,
+    0.15,
   );
 
   const parsed = content ? parseJson<PalmValidationResult>(content) : null;
@@ -119,6 +121,9 @@ export async function validatePalmPhoto(
     isPalm: true,
     fullyVisible: true,
     allFingersVisible: true,
+    isOpenPalm: true,
+    fingersExtended: true,
+    isFistOrCupped: false,
     palmCoverage: 85,
     lighting: "good",
     blur: false,

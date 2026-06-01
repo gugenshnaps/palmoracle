@@ -17,23 +17,32 @@ export function mergeValidation(
     };
   }
 
+  const cupped =
+    ai.isFistOrCupped === true ||
+    ai.isOpenPalm === false ||
+    ai.fingersExtended === false;
+
   const aiFlagsFail =
     !ai.isPalm ||
     !ai.fullyVisible ||
     !ai.allFingersVisible ||
+    cupped ||
     ai.palmCoverage < QUALITY_THRESHOLDS.minPalmCoverage ||
     ai.lighting === "poor" ||
     ai.blur ||
     ai.qualityScore < QUALITY_THRESHOLDS.minQualityScore;
 
   if (aiFlagsFail) {
+    const cuppedMsg =
+      "Раскройте ладонь полностью: разведите пальцы, ладонь к камере. Кулак и полузакрытая ладонь не подходят.";
     return {
       ...merged,
       valid: false,
       message: ai.message || ai.rejectReason || "Фото не подходит для анализа",
-      rejectReason:
-        ai.rejectReason ??
-        "Снимите ладонь при хорошем свете, пальцами вверх, ближе к камере.",
+      rejectReason: cupped
+        ? cuppedMsg
+        : (ai.rejectReason ??
+          "Снимите ладонь при хорошем свете, пальцами вверх, ближе к камере."),
     };
   }
 

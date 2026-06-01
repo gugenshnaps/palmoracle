@@ -20,6 +20,9 @@ export interface PalmValidationResult {
   isPalm: boolean;
   fullyVisible: boolean;
   allFingersVisible: boolean;
+  isOpenPalm?: boolean;
+  fingersExtended?: boolean;
+  isFistOrCupped?: boolean;
   palmCoverage: number;
   lighting: "good" | "ok" | "poor";
   blur: boolean;

@@ -50,7 +50,22 @@ export async function POST(request: Request) {
         };
       } catch (e) {
         console.error("[validate] normalize failed", e);
+        result = {
+          ...result,
+          valid: false,
+          message: "Не удалось обработать кадр. Снимите ладонь ровнее, при свете.",
+          rejectReason: "Ошибка выравнивания фото",
+        };
       }
+    }
+
+    if (result.valid && !result.normalizedImageBase64) {
+      result = {
+        ...result,
+        valid: false,
+        message: "Снимите ладонь ровнее: пальцы вверх, раскрытая ладонь.",
+        rejectReason: "Нет выровненного кадра",
+      };
     }
 
     return NextResponse.json(result);

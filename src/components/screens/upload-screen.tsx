@@ -44,8 +44,9 @@ export function UploadScreen() {
         <p className="font-medium text-[#e8d5a3]">Как снять ладонь</p>
         <ul className="mt-2 list-inside list-disc space-y-1">
           <li>Дневной свет или включённая лампа</li>
+          <li>Раскройте ладонь, разведите пальцы</li>
           <li>Пальцы вверх, ладонь на всю рамку</li>
-          <li>Без силуэта и засвета с экрана</li>
+          <li>Не кулак и не полузакрытая ладонь</li>
         </ul>
       </div>
 
