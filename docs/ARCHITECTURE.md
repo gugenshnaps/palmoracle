@@ -2,11 +2,14 @@
 
 ## Поток
 
-1. Upload → фото ладони (сжатие на клиенте)
-2. `POST /api/validate` → GPT Vision (4.1-mini) → JSON проверки
-3. Quality check UI → галочки, qualityScore
-4. `POST /api/analyze` → GPT Vision (4.1) → JSON 4 линий + teaser доп. линий
-5. Free result → `PalmGuidePoster` (React, молочные карточки)
+1. Upload → фото + подсказки по свету
+2. `POST /api/validate`:
+   - **Метрики** (sharp): яркость, контраст, доля тёмных пикселей, blur
+   - **GPT Vision** (4.1-mini): строгий JSON + `palmTransform`
+   - **Normalize** (sharp): crop, поворот пальцами вверх, кадр 4:5
+3. Quality check UI → галочки, «выравниваем кадр»
+4. `POST /api/analyze` → на **нормализованном** фото → JSON 4 линий
+5. Free result → гид + SVG линии на выровненной ладони
 6. Paywall → дополнительные линии (замок на гиде)
 7. После оплаты → `includePaidLines: true` → полный текст доп. линий
 

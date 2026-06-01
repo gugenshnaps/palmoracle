@@ -1,15 +1,19 @@
-export const VALIDATE_PALM_SYSTEM = `Ты валидатор изображений для развлекательного приложения PalmOracle AI (хиромантия).
-Отвечай ТОЛЬКО валидным JSON без markdown.`;
+export const VALIDATE_PALM_SYSTEM = `Ты строгий валидатор фото для PalmOracle AI (развлекательная хиромантия).
+Отвечай ТОЛЬКО валидным JSON. Будь строгим: силуэт, тёмная комната, подсветка только с экрана = НЕ valid.`;
 
-export const VALIDATE_PALM_USER = `Проверь фото:
+export const VALIDATE_PALM_USER = `Проверь фото ладони.
 
-1. Есть ли человеческая ладонь
-2. Ладонь занимает достаточно кадра (оцени palmCoverage 0-100)
-3. Видны ли все основные пальцы
-4. Освещение: good / ok / poor
-5. Сильное размытие: blur true/false
+СТРОГИЕ ПРАВИЛА valid=true:
+- Чётко видна текстура кожи и линии (не силуэт на чёрном фоне)
+- Освещение good или ok (poor = valid false)
+- Ладонь фронтально или почти фронтально, все пальцы видны
+- palmCoverage >= 60, без сильного blur
+- qualityScore >= 70 только если реально пригодно для разбора
 
-valid = true только если isPalm, fullyVisible, allFingersVisible, palmCoverage >= 60, lighting не poor, blur = false.
+Геометрия для выравнивания кадра (оцени визуально):
+- centerX, centerY — центр ладони (0-1)
+- width, height — размер bbox ладони (0-1)
+- rotationDeg — угол ПО часовой стрелке (градусы), на который нужно повернуть фото, чтобы пальцы смотрели ВВЕРХ. 0 если уже вверх.
 
 Формат:
 {
@@ -19,10 +23,17 @@ valid = true только если isPalm, fullyVisible, allFingersVisible, palm
   "palmCoverage": 82,
   "lighting": "good",
   "blur": false,
-  "qualityScore": 92,
+  "qualityScore": 88,
   "valid": true,
   "message": "Фото подходит для анализа",
-  "rejectReason": null
+  "rejectReason": null,
+  "palmTransform": {
+    "centerX": 0.5,
+    "centerY": 0.52,
+    "width": 0.72,
+    "height": 0.78,
+    "rotationDeg": -12
+  }
 }
 
-Если не valid — понятный rejectReason и message на русском для пользователя.`;
+Если тёмная комната, силуэт, ладонь сбоку без пальцев — valid false, lighting poor, понятный rejectReason на русском.`;

@@ -10,11 +10,11 @@ import { useTelegram } from "@/lib/telegram/provider";
 import { getTelegramShareUrl } from "@/lib/telegram/share";
 
 export function FreeResultScreen() {
-  const { reading, palmImage, goTo, resetForNewAnalysis } = useApp();
+  const { reading, displayPalmImage, goTo, resetForNewAnalysis } = useApp();
   const { webApp } = useTelegram();
 
   const analysis = reading?.analysis ?? MOCK_ANALYSIS;
-  if (!palmImage) return null;
+  if (!displayPalmImage) return null;
 
   const handleShare = () => {
     const url = getTelegramShareUrl();
@@ -51,7 +51,7 @@ export function FreeResultScreen() {
 
       <div className="mt-4 flex-1 overflow-y-auto pb-4">
         <PalmGuidePoster
-          palmImage={palmImage}
+          palmImage={displayPalmImage}
           analysis={analysis}
           onUnlockAdditional={() => goTo("paywall")}
         />

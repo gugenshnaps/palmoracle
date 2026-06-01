@@ -103,14 +103,23 @@ export function QualityCheckScreen() {
         })}
       </ul>
 
-      {visibleChecks >= 3 && (
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mt-8 text-center text-sm tracking-wide text-[#c9a962]"
-        >
-          Начинаем анализ…
-        </motion.p>
+        {visibleChecks >= 3 && (
+        <>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-6 text-center text-sm text-[#9a9288]"
+          >
+            Выравниваем кадр: пальцы вверх
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="mt-2 text-center text-sm tracking-wide text-[#c9a962]"
+          >
+            Начинаем анализ…
+          </motion.p>
+        </>
       )}
     </div>
   );

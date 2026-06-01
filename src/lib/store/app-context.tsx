@@ -13,9 +13,15 @@ import { MOCK_ANALYSIS } from "@/lib/mock/palm-analysis";
 import { initiatePayment } from "@/lib/api/payments";
 import { useTelegram } from "@/lib/telegram/provider";
 
+function imageToBase64(dataUrl: string) {
+  return dataUrl.split(",")[1] ?? dataUrl;
+}
+
 interface AppContextValue {
   screen: AppScreen;
   palmImage: string | null;
+  /** Кадр после выравнивания (пальцы вверх) — для UI и analyze */
+  displayPalmImage: string | null;
   validation: PalmValidationResult | null;
   reading: PalmReadingResult | null;
   isPaid: boolean;
@@ -93,12 +99,16 @@ export function AppProvider({ children }: { children: ReactNode }) {
     }
   }, [palmImage, userId, initData]);
 
+  const displayPalmImage =
+    validation?.normalizedImageBase64 ?? palmImage;
+
   const startAnalysis = useCallback(async () => {
-    if (!palmImage) return;
+    const src = validation?.normalizedImageBase64 ?? palmImage;
+    if (!src) return;
     setIsProcessing(true);
     setAnalysisError(null);
     try {
-      const base64 = palmImage.split(",")[1] ?? palmImage;
+      const base64 = imageToBase64(src);
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 90_000);
       const res = await fetch("/api/analyze", {
@@ -126,16 +136,17 @@ export function AppProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsProcessing(false);
     }
-  }, [palmImage, userId, initData]);
+  }, [palmImage, validation?.normalizedImageBase64, userId, initData]);
 
   const completePayment = useCallback(async () => {
-    if (!palmImage) return false;
+    const src = validation?.normalizedImageBase64 ?? palmImage;
+    if (!src) return false;
     setIsProcessing(true);
     try {
       const { success } = await initiatePayment("additional-lines", userId);
       if (!success) return false;
 
-      const base64 = palmImage.split(",")[1] ?? palmImage;
+      const base64 = imageToBase64(src);
       const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -163,13 +174,20 @@ export function AppProvider({ children }: { children: ReactNode }) {
     } finally {
       setIsProcessing(false);
     }
-  }, [palmImage, userId, initData, reading?.analysis]);
+  }, [
+    palmImage,
+    validation?.normalizedImageBase64,
+    userId,
+    initData,
+    reading?.analysis,
+  ]);
 
   return (
     <AppContext.Provider
       value={{
         screen,
         palmImage,
+        displayPalmImage,
         validation,
         reading,
         isPaid,

@@ -40,10 +40,19 @@ export function UploadScreen() {
         subtitle="Сделайте чёткое фото при хорошем освещении. Ладонь должна быть полностью видна."
       />
 
+      <div className="my-6 rounded-2xl border border-[#c9a962]/15 bg-[#12100e]/60 p-4 text-[13px] leading-relaxed text-[#9a9288]">
+        <p className="font-medium text-[#e8d5a3]">Как снять ладонь</p>
+        <ul className="mt-2 list-inside list-disc space-y-1">
+          <li>Дневной свет или включённая лампа</li>
+          <li>Пальцы вверх, ладонь на всю рамку</li>
+          <li>Без силуэта и засвета с экрана</li>
+        </ul>
+      </div>
+
       <motion.div
         initial={{ opacity: 0, scale: 0.96 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="my-10 flex flex-1 flex-col items-center justify-center"
+        className="mb-8 flex flex-1 flex-col items-center justify-center"
       >
         <div className="relative flex h-56 w-56 items-center justify-center rounded-full border border-dashed border-[#c9a962]/35 bg-[#12100e]/60">
           <div className="absolute inset-4 rounded-full border border-[#c9a962]/15" />

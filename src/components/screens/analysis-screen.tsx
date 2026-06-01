@@ -14,7 +14,7 @@ const PHASES = [
 
 export function AnalysisScreen() {
   const {
-    palmImage,
+    displayPalmImage,
     startAnalysis,
     reading,
     isProcessing,
@@ -49,7 +49,7 @@ export function AnalysisScreen() {
     if (reading && !isProcessing) setProgress(100);
   }, [reading, isProcessing]);
 
-  if (!palmImage) return null;
+  if (!displayPalmImage) return null;
 
   if (analysisError) {
     return (
@@ -69,7 +69,7 @@ export function AnalysisScreen() {
       <motion.p className="mb-2 text-center text-xs tracking-[0.2em] text-[#c9a962] uppercase">
         {phaseLabel}
       </motion.p>
-      <PalmScanner imageSrc={palmImage} progress={progress} />
+      <PalmScanner imageSrc={displayPalmImage} progress={progress} />
       <motion.p className="mt-8 max-w-xs text-center text-[15px] leading-relaxed text-[#9a9288]">
         AI интерпретирует линии вашей ладони
       </motion.p>

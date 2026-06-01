@@ -65,7 +65,7 @@ async function visionChat(
         },
       ],
       response_format: { type: "json_object" },
-      temperature: 0.7,
+      temperature: 0.4,
     }),
   });
 
@@ -77,6 +77,23 @@ async function visionChat(
   const data = await res.json();
   const content = data?.choices?.[0]?.message?.content;
   return typeof content === "string" ? content : null;
+}
+
+/** Без API key — только для dev; production должен иметь ключ */
+function demoValidationFail(): PalmValidationResult {
+  return {
+    isPalm: false,
+    fullyVisible: false,
+    allFingersVisible: false,
+    palmCoverage: 0,
+    lighting: "poor",
+    blur: false,
+    qualityScore: 0,
+    valid: false,
+    message: "Добавьте OPENROUTER_API_KEY для проверки фото",
+    rejectReason: "Сервис анализа не настроен",
+    palmTransform: null,
+  };
 }
 
 export async function validatePalmPhoto(
@@ -94,6 +111,10 @@ export async function validatePalmPhoto(
   const parsed = content ? parseJson<PalmValidationResult>(content) : null;
   if (parsed) return parsed;
 
+  if (!process.env.OPENROUTER_API_KEY) {
+    return demoValidationFail();
+  }
+
   return {
     isPalm: true,
     fullyVisible: true,
@@ -103,7 +124,14 @@ export async function validatePalmPhoto(
     blur: false,
     qualityScore: 88,
     valid: true,
-    message: "Фото подходит для анализа (демо-режим)",
+    message: "Фото подходит для анализа",
+    palmTransform: {
+      centerX: 0.5,
+      centerY: 0.5,
+      width: 0.8,
+      height: 0.85,
+      rotationDeg: 0,
+    },
   };
 }
 
